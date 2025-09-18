@@ -1,0 +1,61 @@
+.profile-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    gap: 5rem;
+}
+.profile-button {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.profile-title {
+    animation: fadeInUp 1.5s ease-out forwards;
+    opacity: 0;
+}
+.button-left {
+    animation: slideInLeft 1s ease-out forwards;
+    animation-delay: 1.6s;
+    opacity: 0;
+}
+.button-right {
+    animation: slideInRight 1s ease-out forwards;
+    animation-delay: 1.6s;
+    opacity: 0;
+}
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+

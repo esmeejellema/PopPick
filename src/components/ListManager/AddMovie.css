@@ -1,0 +1,80 @@
+.grid-list-movies {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    padding: 0;
+    list-style: none;
+}
+.grid-list-movies li {
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: coral;
+}
+.grid-list-movies li.selected {
+    background-color: green;
+    border: 1px solid green;
+}
+input:hover {
+    cursor: pointer;
+}
+.grid-list-movies:hover li {
+    cursor: pointer;
+}
+input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+}
+
+
+.scroll-container {
+    max-height: 200px;
+    overflow-y: scroll;
+    padding: 0.5rem;
+}
+.scroll-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+.list-selection-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem;
+    gap: 2rem;
+}
+.list-selection-button {
+    position: relative;
+    background-color: black;
+    border-radius: 4px;
+    border: 1px solid green;
+    color: white;
+    padding: 0.75rem;
+
+}
+.list-selection {
+    position: relative;
+    list-style: none;
+    font-family: 'Poppins', sans-serif;
+}
+.list-selection:hover {
+    cursor: pointer;
+}
