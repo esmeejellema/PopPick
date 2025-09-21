@@ -2,7 +2,6 @@ import React from 'react';
 import CreateList from "../components/ListManager/CreateList";
 import AddMovie from "../components/ListManager/AddMovie";
 import './Lists.css';
-import ManageList from "./ManageList.jsx";
 import Button from "../components/Button.jsx";
 
 function Lists() {

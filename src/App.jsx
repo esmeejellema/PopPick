@@ -6,9 +6,8 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Quiz from './pages/Quiz';
 import Lists from './pages/Lists';
-import ManageLists from './ManageLists';
+import ManageList from './pages/ManageList';
 import './App.css';
-import ManageList from "./pages/ManageList.jsx";
 
 function App() {
 
