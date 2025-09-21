@@ -45,7 +45,7 @@ const AddMovie = () => {
             return;
         }
 
-        fetch('http://localhost:8080/movielists/{selectedListId}/movies', {
+        fetch(`http://localhost:8080/movielists/${selectedListId}/movies`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(selectedMovieIds),//contains ID's of movies you want to add to that list.
@@ -104,7 +104,7 @@ const AddMovie = () => {
                     ))}
                 </ul>
             </div>
-            <button onClick={addMoviesToList}>Add Selected Movies</button>
+            <button onClick={addMoviesToList}>Add Movies</button>
         </div>
     );
 };
