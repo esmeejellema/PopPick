@@ -1,11 +1,9 @@
 .quiz-wrapper {
     min-height: 100vh;
-    color: var(--faded-teal);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-family: 'Poppins', sans-serif;
     padding: 2rem;
     text-align: center;
 }
@@ -28,18 +26,17 @@
 }
 
 .quiz-options button {
-    background-color: #96C2B5;
     border: none;
     border-radius: 6px;
     padding: 12px;
     font-size: 1rem;
-    color: white;
+    color: var(--warm-beige);
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .quiz-options button:hover {
-    background-color: #7da89e;
+    background-color: var(--deep-black);
 }
 
 /* Animaties */

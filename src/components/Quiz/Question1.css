@@ -1,0 +1,37 @@
+.genre-list {
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.genre-button {
+    background-color: #e0e0e0;
+    color: black;
+    margin: 5px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.genre-button.selected {
+    background-color: #4caf50;
+    color: white;
+}
+
+.continue-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.continueButton:hover {
+    background-color: #1976d2;
+}

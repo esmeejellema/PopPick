@@ -1,64 +1,61 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './Quiz.css';
+import Question1 from '../components/Quiz/Question1';
+import Question2 from '../components/Quiz/Question2';
+import Question3 from '../components/Quiz/Question3';
+import Question4 from '../components/Quiz/Question4';
+import Recommendation from '../components/Quiz/Recommendation';
 
 function Quiz() {
-    const questions = [
-        {
-            text: "What kind of genre are you in the mood for?",
-            options: ["Horror", "Romance", "Action", "Thriller"],
-        },
-        {
-            text: "Is this a short trip or an epic quest?",
-            options: ["1hour", "2hour", "3", "4"],
-        },
-        {
-            text: "Feeling nostalgic or craving something fresh?",
-            options: ["Shakespeare", "Dante", "Goethe", "Tolstoj"],
-        },
-        {
-            text: "Which streaming service is available to you?",
-            options: ["Netflix", "Amazon Prime", "HBO Max", "Videoland"],
-        },
-        {
-            text: "What mood describes the one you're in?",
-            options: ["post-break-up", "Hollywood", "cozy", "chick-flick"],
-        },
-    ];
+    const [step, setStep] = useState(1);
+    const [filteredResults] = useState([]);
+    const [answers, setAnswers] = useState({});
 
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [showQuestion, setShowQuestion] = useState(true);
+    const goToNextStep = () => setStep((prev) => prev + 1);
 
-    const handleAnswer = () => {
-        // Verberg huidige vraag
-        setShowQuestion(false);
+    const handleAnswerSubmit = async (questionId, answerPayLoad) => {
+        const updatedAnswers = {...answers, [questionId]: answerPayLoad};
+        setAnswers(updatedAnswers); //merge with existing answers.
+        // const response = await fetch();//send to backend, no connection yet
+        //
+        // const data = await response.json();
+        // setFilteredResults(data.filteredResults);
 
-        // Wacht op animatie, dan toon volgende
-        setTimeout(() => {
-            setCurrentIndex((prev) => prev + 1);
-            setShowQuestion(true);
-        }, 400); // iets korter dan de fadeOut (of gelijk)
+        goToNextStep();
     };
-
-    const currentQuestion = questions[currentIndex];
-
     return (
-        <div className="quiz-wrapper">
-            {currentIndex < questions.length ? (
-                <div className={`quiz-question-block ${showQuestion ? 'fade-in' : 'fade-out'}`}>
-                    <h2 className="quiz-question">{currentQuestion.text}</h2>
-                    <div className="quiz-options">
-                        {currentQuestion.options.map((opt, idx) => (
-                            <button key={idx} onClick={handleAnswer}>
-                                {opt}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            ) : (
-                <h2 className="quiz-done">PickPop suggests</h2>
+        <div>
+            {step === 1 && (
+                <Question1
+                    onSubmit={(answer) => handleAnswerSubmit('q1', answer)}
+                />
+            )}
+
+            {step === 2 && (
+                <Question2
+                    onSubmit={(answer) => handleAnswerSubmit('q2', answer)}
+                    filteredResults={filteredResults}
+                />
+            )}
+
+            {step === 3 && (
+                <Question3
+                    onSubmit={(answer) => handleAnswerSubmit('q3', answer)}
+                    filteredResults={filteredResults}
+                />
+            )}
+
+            {step === 4 && (
+                <Question4
+                    onSubmit={(answer) => handleAnswerSubmit('q4', answer)}
+                    filteredResults={filteredResults}
+                />
+            )}
+
+            {step === 5 && (
+                <Recommendation results={filteredResults} />
             )}
         </div>
-    );
-}
+    )};
 
-export default Quiz;
+    export default Quiz;
