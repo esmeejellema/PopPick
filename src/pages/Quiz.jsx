@@ -1,62 +1,88 @@
-import { useState } from 'react';
-import './Quiz.css';
+import React, { useState } from 'react';
+import '../styling/Animations.css';
+import './QuizLayOut.css';
+import Question1 from '../components/Quiz/Question1';
+import Question2 from '../components/Quiz/Question2';
+import Question3 from '../components/Quiz/Question3';
+import Question4 from '../components/Quiz/Question4';
+import Recommendation from '../components/Quiz/Recommendation';
 
 function Quiz() {
-    const questions = [
-        {
-            text: "What kind of genre are you in the mood for?",
-            options: ["Horror", "Romance", "Action", "Thriller"],
-        },
-        {
-            text: "Is this a short trip or an epic quest?",
-            options: ["1hour", "2hour", "3", "4"],
-        },
-        {
-            text: "Feeling nostalgic or craving something fresh?",
-            options: ["Shakespeare", "Dante", "Goethe", "Tolstoj"],
-        },
-        {
-            text: "Which streaming service is available to you?",
-            options: ["Netflix", "Amazon Prime", "HBO Max", "Videoland"],
-        },
-        {
-            text: "What mood describes the one you're in?",
-            options: ["post-break-up", "Hollywood", "cozy", "chick-flick"],
-        },
-    ];
+    const [step, setStep] = useState(1);
+    const [filteredResults] = useState([]);
+    const [answers, setAnswers] = useState({});
 
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [showQuestion, setShowQuestion] = useState(true);
-
-    const handleAnswer = () => {
-        // Verberg huidige vraag
-        setShowQuestion(false);
-
-        // Wacht op animatie, dan toon volgende
-        setTimeout(() => {
-            setCurrentIndex((prev) => prev + 1);
-            setShowQuestion(true);
-        }, 400); // iets korter dan de fadeOut (of gelijk)
+    const goToNextStep = () => {
+        if (step < 5) {
+            setStep((prev) => prev + 1);
+        }
     };
 
-    const currentQuestion = questions[currentIndex];
+    const goToPreviousStep = () => {
+        if (step > 1) {
+            setStep((prev) => prev - 1);
+        }
+    };
+
+    const handleAnswerSubmit = async (questionId, answerPayLoad) => {
+        const updatedAnswers = { ...answers, [questionId]: answerPayLoad };
+        setAnswers(updatedAnswers);
+
+        // Optional: Send to backend in future
+        // const response = await fetch(...);
+        // const data = await response.json();
+        // setFilteredResults(data.filteredResults);
+    };
 
     return (
-        <div className="quiz-wrapper">
-            {currentIndex < questions.length ? (
-                <div className={`quiz-question-block ${showQuestion ? 'fade-in' : 'fade-out'}`}>
-                    <h2 className="quiz-question">{currentQuestion.text}</h2>
-                    <div className="quiz-options">
-                        {currentQuestion.options.map((opt, idx) => (
-                            <button key={idx} onClick={handleAnswer}>
-                                {opt}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            ) : (
-                <h2 className="quiz-done">PickPop suggests</h2>
+        <div className="quiz-page">
+            {/* Question rendering */}
+            {step === 1 && (
+                <Question1
+                    onSubmit={(answer) => handleAnswerSubmit('q1', answer)}
+                    previousAnswer={answers['q1']}
+                />
             )}
+
+            {step === 2 && (
+                <Question2
+                    onSubmit={(answer) => handleAnswerSubmit('q2', answer)}
+                    filteredResults={filteredResults}
+                    previousAnswer={answers['q2']}
+                />
+            )}
+
+            {step === 3 && (
+                <Question3
+                    onSubmit={(answer) => handleAnswerSubmit('q3', answer)}
+                    filteredResults={filteredResults}
+                    previousAnswer={answers['q3']}
+                />
+            )}
+
+            {step === 4 && (
+                <Question4
+                    onSubmit={(answer) => handleAnswerSubmit('q4', answer)}
+                    filteredResults={filteredResults}
+                    previousAnswer={answers['q4']}
+                />
+            )}
+
+            {step === 5 && (
+                <Recommendation results={filteredResults} />
+            )}
+
+            {/* Navigation Buttons */}
+            <div className="button-secondary-wrapper">
+                {step > 1 && step < 5 && (
+                    <button className="button-secondary" onClick={goToPreviousStep}>
+                        Previous
+                    </button>)}
+                {step < 5 && (
+                    <button className="button-secondary" onClick={goToNextStep}>
+                Next
+            </button>)}
+            </div>
         </div>
     );
 }
