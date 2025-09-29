@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {useEffect} from "react";
 import '../styling/Animations.css';
 import './QuizLayOut.css';
 import Question1 from '../components/Quiz/Question1';
@@ -9,7 +10,7 @@ import Recommendation from '../components/Quiz/Recommendation';
 
 function Quiz() {
     const [step, setStep] = useState(1);
-    const [filteredResults] = useState([]);
+    const [filteredResults, setFilteredResults] = useState([]);
     const [answers, setAnswers] = useState({});
 
     const goToNextStep = () => {
@@ -24,17 +25,36 @@ function Quiz() {
         }
     };
 
-    const handleAnswerSubmit = async (questionId, answerPayLoad) => {
-        const updatedAnswers = { ...answers, [questionId]: answerPayLoad };
-        setAnswers(updatedAnswers);
-
-        // Optional: Send to backend in future
-        // const response = await fetch(...);
-        // const data = await response.json();
-        // setFilteredResults(data.filteredResults);
+    const handleAnswerSubmit = (questionId, answerPayLoad) => {
+        setAnswers(prev => ({ ...prev, [questionId]: answerPayLoad }));
+        goToNextStep();
     };
+        // Fetch gefilterde films zodra we bij stap 5 zijn
+        useEffect(() => {
+            if (step === 5) {
+                fetchFilteredMovies();
+            }
+        }, [step]);
 
-    return (
+        const fetchFilteredMovies = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/quiz`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(answers),
+                });
+
+                if (!response.ok) throw new Error('Netwerkfout bij ophalen data');
+
+                const data = await response.json();
+                setFilteredResults(data.filteredMovies || []);
+            } catch (error) {
+                console.error('Fout bij ophalen gefilterde films:', error);
+            }
+        };
+
+
+        return (
         <div className="quiz-page">
             {/* Question rendering */}
             {step === 1 && (

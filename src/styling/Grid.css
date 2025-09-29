@@ -23,12 +23,10 @@ input:hover {
 .grid-list-movies:hover li {
     cursor: pointer;
 }
+/*styling for checkboxes of movie items*/
 input[type="checkbox"] {
     position: absolute;
     opacity: 0;
-    pointer-events: none;
-    width: 0;
-    height: 0;
 }
 
 
@@ -45,7 +43,6 @@ input[type="checkbox"] {
     background: #f1f1f1;
     border-radius: 4px;
 }
-
 .scroll-container::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 4px;
@@ -54,7 +51,6 @@ input[type="checkbox"] {
 .scroll-container::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
-
 
 .list-selection-wrapper {
     display: flex;

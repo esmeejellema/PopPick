@@ -1,6 +1,8 @@
 import React from 'react';
 import CreateList from "../components/ListManager/CreateList";
 import AddMovie from "../components/ListManager/AddMovie";
+import Button from '../components/Button.jsx';
+import './ManageList.jsx';
 
 function Lists() {
     return (
@@ -8,7 +10,7 @@ function Lists() {
             <h1>Lists</h1>
             <CreateList />
             <AddMovie />
-            <h1>Click here to view and edit your lists</h1>
+            <Button className="button-primary" text="View and Edit Lists" to="/manageList"/>
         </div>
     );
 }

@@ -44,6 +44,6 @@ const CreateList = () => {
             <button type="button" onClick={createListName} className="button-secondary">Create</button>
         </div>
     );
-};
+}
 export default CreateList;
 

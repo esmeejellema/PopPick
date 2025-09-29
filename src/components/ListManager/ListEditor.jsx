@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './ListEditor.css'; // Make sure this is still imported
+import './ListEditor.css';
 
 const ListEditor = () => {
     const [lists, setLists] = useState([]);
@@ -54,6 +54,6 @@ const ListEditor = () => {
             </ul>
         </div>
     );
-};
+}
 
 export default ListEditor;

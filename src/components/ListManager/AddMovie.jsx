@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import '../../styling/Grid.css'
+import Button from '../Button.jsx';
+import '../../styling/Button.css';
+import '../../styling/Wrapper.css';
+import './ListEditor.jsx';
 
 //1. state declarations
 const AddMovie = () => {
@@ -67,12 +72,11 @@ const AddMovie = () => {
                 : [...prev, id]
         );
     }
-//OUTPUT
 
     return (
-        <div >
+        <div>
             <div className="list-selection-wrapper">
-            <button className="list-selection-button" onClick={toggleDropdown}>
+            <button className="button-secondary" onClick={toggleDropdown}>
                 {selectedList ? selectedList.listName: 'Select a list'}
             </button>
             {isOpen && (
@@ -103,10 +107,10 @@ const AddMovie = () => {
                     ))}
                 </ul>
             </div>
-            <button onClick={addMoviesToList}>Add Selected Movies</button>
+            <button className="button-secondary" onClick={addMoviesToList}>Add Selected Movies</button>
         </div>
     );
-};
+}
 
 export default AddMovie;
 
