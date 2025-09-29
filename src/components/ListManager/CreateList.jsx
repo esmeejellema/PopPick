@@ -12,7 +12,7 @@ const CreateList = () => {
         }
     const payload = { listName: listName };
 
-        fetch("http://localhost:8080/movielists", {
+        fetch(`http://localhost:8080/movielists`, {
             method: 'POST',
             body: JSON.stringify(payload),
             headers: {'Content-Type': 'application/json'},

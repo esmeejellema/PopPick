@@ -1,0 +1,46 @@
+/* ListEditor.css */
+
+.list-editor-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1em;
+}
+
+.list-item {
+    margin-bottom: 1em;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 2rem;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
+}
+.list-header {
+    cursor: pointer;
+}
+
+.list-body {
+    background-color: #fff;
+}
+
+.list-body input[type="text"] {
+    margin-left: 10px;
+}
+
+.movie-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    padding-left: 20px;
+    list-style: none;
+    font-family: 'limelight';
+}
+
+.movie-list li {
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: coral;
+}
+
+.dropdown {
+    list-style: none;
+}
