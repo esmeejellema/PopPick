@@ -1,3 +1,5 @@
+
+/*AddMovies*/
 .grid-list-movies {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -60,15 +62,6 @@ input[type="checkbox"] {
     align-items: center;
     margin: 2rem;
     gap: 2rem;
-}
-.list-selection-button {
-    position: relative;
-    background-color: black;
-    border-radius: 4px;
-    border: 1px solid green;
-    color: white;
-    padding: 0.75rem;
-
 }
 .list-selection {
     position: relative;

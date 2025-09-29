@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import '../../styling/Input.css';
+import '../../styling/Wrapper.css';
+import '../../styling/Button.css';
 
 const CreateList = () => {
     const [listName, setListName] = useState('');
@@ -31,16 +34,14 @@ const CreateList = () => {
     };
 
     return (
-        <div>
-            <input
+        <div className="wrapper-lists">
+            <input className="input-field"
                 type="text"
                 placeholder="List Name"
                 value={listName}
                 onChange={e => setListName(e.target.value)}
                 />
-            <button type="button" onClick={createListName} className="button">Create</button>
-
-            <hr/>
+            <button type="button" onClick={createListName} className="button-secondary">Create</button>
         </div>
     );
 };

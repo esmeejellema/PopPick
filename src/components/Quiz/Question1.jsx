@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import './Question1.css';
+import '../../styling/Titles.css';
+import '../../styling/Wrapper.css';
+
 
 const Genres = [
     "Action", "Comedy", "Drama", "Romance", "Horror", "Sci-Fi", "Fantasy", "Thriller",
@@ -7,7 +9,7 @@ const Genres = [
     "Biography", "War", "No preference"
 ];
 
-function Question1({ onSubmit }) {
+function Question1() {
     const [selectedGenres, setSelectedGenres] = useState([]);
 
     const toggleGenre = (genre) => {
@@ -27,37 +29,23 @@ function Question1({ onSubmit }) {
         setSelectedGenres(updatedGenres);
     };
 
-    const handleContinue = () => {
-        if (selectedGenres.length === 0) {
-            alert("Please select at least one genre.");
-            return;
-        }
-        onSubmit(selectedGenres);
-    };
-
     return (
         <div>
-            <h2>What kind of genre are you in the mood for?</h2>
-            <div className="genre-list">
+            <h2 className="question">What kind of genre are you in the mood for?</h2>
+            <div className="wrapper-answers-container">
                 {Genres.map((genre) => {
                     const isSelected = selectedGenres.includes(genre);
                     return (
                         <button
                             key={genre}
                             onClick={() => toggleGenre(genre)}
-                            className={`genre-button ${isSelected ? 'selected' : ''}`}
+                            className={`button-tertiary ${isSelected ? 'selected' : ''}`}
                         >
                             {genre}
                         </button>
                     );
                 })}
             </div>
-            <button
-                onClick={handleContinue}
-                className="continue-button"
-            >
-                Continue
-            </button>
         </div>
     );
 }

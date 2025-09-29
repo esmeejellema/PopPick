@@ -1,27 +1,15 @@
-.profile-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    min-height: 100vh;
-    gap: 5rem;
-}
-.profile-button {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-}
-.profile-title {
+/*Animations profile*/
+.profile-title-animation {
     animation: fadeInUp 1.5s ease-out forwards;
     opacity: 0;
 }
-.button-left {
+
+.button-primary-left {
     animation: slideInLeft 1s ease-out forwards;
     animation-delay: 1.6s;
     opacity: 0;
 }
-.button-right {
+.button-primary-right {
     animation: slideInRight 1s ease-out forwards;
     animation-delay: 1.6s;
     opacity: 0;
@@ -58,4 +46,38 @@
         transform: translateX(0);
     }
 }
+/* Animations Quiz */
+.fade-in {
+    animation-name: fadeInUp;
+    opacity: 0;
+}
+
+.fade-out {
+    animation-name: fadeOut;
+    opacity: 1;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+}
+
+
 

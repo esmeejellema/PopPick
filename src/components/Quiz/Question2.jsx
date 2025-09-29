@@ -1,21 +1,25 @@
-import React from 'react';
-import './Question2.css';
+import React, {useState} from 'react';
+import '../../styling/Titles.css';
+import '../../styling/Wrapper.css';
+
 
 function Question2({ onSubmit }) {
+    const [selectedAnswer, setSelectedAnswer] = useState('');
     const handleSelect = (choice) => {
+        setSelectedAnswer(choice)
         onSubmit(choice); // Sends 'short' or 'long' back to Quiz.jsx
     };
 
     return (
-        <div className="question2-container">
-            <h2>Is this a short trip or epic quest?</h2>
-            <div>
-                <button onClick={() => handleSelect('short')} className="choice-button">
+        <div>
+            <h2 className="question">Is this a short trip or epic quest?</h2>
+            <div className="wrapper-answers">
+                <button onClick={() => handleSelect('short')} className={`button-tertiary ${selectedAnswer === 'short' ? 'selected' : ''}`}>
                     Short Trip<br />
                     <span className="subtitle">Less than 1.5 hours</span>
                 </button>
 
-                <button onClick={() => handleSelect('long')} className="choice-button">
+                <button onClick={() => handleSelect('long')} className={`button-tertiary ${selectedAnswer === 'long' ? 'selected' : ''}`}>
                     Epic Quest<br />
                     <span className="subtitle">More than 1.5 hours</span>
                 </button>

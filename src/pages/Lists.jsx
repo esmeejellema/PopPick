@@ -1,7 +1,6 @@
 import React from 'react';
 import CreateList from "../components/ListManager/CreateList";
 import AddMovie from "../components/ListManager/AddMovie";
-import './Lists.css';
 
 function Lists() {
     return (

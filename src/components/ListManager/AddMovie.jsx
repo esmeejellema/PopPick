@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import './AddMovie.css';
+import '../../styling/Grid.css';
+import '../../styling/Button.css';
 
 //1. state declarations
 const AddMovie = () => {
@@ -73,7 +74,7 @@ const AddMovie = () => {
     return (
         <div >
             <div className="list-selection-wrapper">
-            <button className="list-selection-button" onClick={toggleDropdown}>
+            <button className="button-secondary" onClick={toggleDropdown}>
                 {selectedList ? selectedList.listName: 'Select a list'}
             </button>
             {isOpen && (
@@ -104,7 +105,7 @@ const AddMovie = () => {
                     ))}
                 </ul>
             </div>
-            <button onClick={addMoviesToList}>Add Selected Movies</button>
+            <button className="button-secondary" onClick={addMoviesToList}>Add Selected Movies</button>
         </div>
     );
 };

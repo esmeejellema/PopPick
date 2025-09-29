@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './Quiz.css';
+import '../styling/Animations.css';
+import './QuizLayOut.css';
 import Question1 from '../components/Quiz/Question1';
 import Question2 from '../components/Quiz/Question2';
 import Question3 from '../components/Quiz/Question3';
@@ -11,23 +12,35 @@ function Quiz() {
     const [filteredResults] = useState([]);
     const [answers, setAnswers] = useState({});
 
-    const goToNextStep = () => setStep((prev) => prev + 1);
+    const goToNextStep = () => {
+        if (step < 5) {
+            setStep((prev) => prev + 1);
+        }
+    };
+
+    const goToPreviousStep = () => {
+        if (step > 1) {
+            setStep((prev) => prev - 1);
+        }
+    };
 
     const handleAnswerSubmit = async (questionId, answerPayLoad) => {
-        const updatedAnswers = {...answers, [questionId]: answerPayLoad};
-        setAnswers(updatedAnswers); //merge with existing answers.
-        // const response = await fetch();//send to backend, no connection yet
-        //
+        const updatedAnswers = { ...answers, [questionId]: answerPayLoad };
+        setAnswers(updatedAnswers);
+
+        // Optional: Send to backend in future
+        // const response = await fetch(...);
         // const data = await response.json();
         // setFilteredResults(data.filteredResults);
-
-        goToNextStep();
     };
+
     return (
-        <div>
+        <div className="quiz-page">
+            {/* Question rendering */}
             {step === 1 && (
                 <Question1
                     onSubmit={(answer) => handleAnswerSubmit('q1', answer)}
+                    previousAnswer={answers['q1']}
                 />
             )}
 
@@ -35,6 +48,7 @@ function Quiz() {
                 <Question2
                     onSubmit={(answer) => handleAnswerSubmit('q2', answer)}
                     filteredResults={filteredResults}
+                    previousAnswer={answers['q2']}
                 />
             )}
 
@@ -42,6 +56,7 @@ function Quiz() {
                 <Question3
                     onSubmit={(answer) => handleAnswerSubmit('q3', answer)}
                     filteredResults={filteredResults}
+                    previousAnswer={answers['q3']}
                 />
             )}
 
@@ -49,13 +64,27 @@ function Quiz() {
                 <Question4
                     onSubmit={(answer) => handleAnswerSubmit('q4', answer)}
                     filteredResults={filteredResults}
+                    previousAnswer={answers['q4']}
                 />
             )}
 
             {step === 5 && (
                 <Recommendation results={filteredResults} />
             )}
-        </div>
-    )};
 
-    export default Quiz;
+            {/* Navigation Buttons */}
+            <div className="button-secondary-wrapper">
+                {step > 1 && step < 5 && (
+                    <button className="button-secondary" onClick={goToPreviousStep}>
+                        Previous
+                    </button>)}
+                {step < 5 && (
+                    <button className="button-secondary" onClick={goToNextStep}>
+                Next
+            </button>)}
+            </div>
+        </div>
+    );
+}
+
+export default Quiz;
