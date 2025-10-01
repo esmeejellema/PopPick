@@ -12,12 +12,12 @@
     --deep-black: #0B0B0B;
 }
 
-html, body, #root {
+body {
     background-image: url(./assets/Background.png);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    height: 100vh;
+    min-height: 100vh;
     text-align: center;
 }
 h1, h2, h3, h4, h5, h6 {

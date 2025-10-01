@@ -1,9 +1,12 @@
 /* ListEditor.css */
 
 .list-editor-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     max-width: 600px;
-    margin: 0 auto;
-    padding: 1em;
+    margin: 5rem;
+    padding: 5rem;
 }
 
 .list-item {

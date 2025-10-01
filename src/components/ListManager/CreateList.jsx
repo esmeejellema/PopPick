@@ -35,13 +35,13 @@ const CreateList = () => {
 
     return (
         <div className="wrapper-lists">
+            <button type="button" onClick={createListName} className="button-secondary">Create</button>
             <input className="input-field"
                 type="text"
-                placeholder="List Name"
+                placeholder="list name..."
                 value={listName}
                 onChange={e => setListName(e.target.value)}
                 />
-            <button type="button" onClick={createListName} className="button-secondary">Create</button>
         </div>
     );
 }

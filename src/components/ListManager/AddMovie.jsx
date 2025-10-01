@@ -16,7 +16,7 @@ const AddMovie = () => {
 
     // 2. fetch existing lists
     useEffect(() => {
-        fetch("http://localhost:8080/movielists")
+        fetch(`http://localhost:8080/movielists`)
             .then((res) => res.json())
             .then(data => setExistingLists(data))//store lists in state
             .catch((err) => console.error("Error fetching lists:", err));
@@ -25,7 +25,7 @@ const AddMovie = () => {
 
     // 3. fetch movies
     useEffect(() => {
-        fetch("http://localhost:8080/movies")//movies
+        fetch(`http://localhost:8080/movies`)
             .then((res) => res.json())
             .then(data => {setMovies(data);})//store movies in state
             .catch((err) => console.error("Error fetching movies:", err));
@@ -49,7 +49,7 @@ const AddMovie = () => {
             return;
         }
 
-        fetch('http://localhost:8080/movielists/{selectedListId}/movies', {
+        fetch(`http://localhost:8080/movielists/${selectedListId}/movies`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(selectedMovieIds),//contains ID's of movies you want to add to that list.
@@ -106,7 +106,7 @@ const AddMovie = () => {
                         </li>
                     ))}
                 </ul>
-            </div>
+                </div>
             <button className="button-secondary" onClick={addMoviesToList}>Add Selected Movies</button>
         </div>
     );

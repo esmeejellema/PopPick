@@ -28,6 +28,9 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+    gap: 4rem;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
 }
 .title-recommendation {
     text-align: center;

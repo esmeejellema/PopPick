@@ -19,8 +19,9 @@ function Quiz() {
         releaseYear: '',
         streamingService: ''
     });
+    //above is the answers that will get sent back in JSON format.
 
-    // navigation buttons
+    // functions for previous and next button step.
     const goToNextStep = () => {
         if (step < 5) {
             setStep((prev) => prev + 1);
@@ -87,7 +88,7 @@ function Quiz() {
 
         return (
         <div className="quiz-page">
-            <Button className="button-tertiary back-to-profile" text="profile" to="/profile"/>
+            <Button className="button-tertiary nav-pages-left" text="profile" to="/profile"/>
             {/* Question rendering */}
             {step === 1 && (
                 <Question1
