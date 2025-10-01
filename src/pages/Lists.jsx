@@ -8,6 +8,7 @@ function Lists() {
     return (
         <div>
             <h1>Lists</h1>
+            <Button className="button-tertiary back-to-profile" text="profile" to="/profile"/>
             <CreateList />
             <AddMovie />
             <Button className="button-primary" text="View and Edit Lists" to="/manageList"/>

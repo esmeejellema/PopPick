@@ -6,45 +6,30 @@ import '../../styling/Wrapper.css';
 const Genres = [
     "Action", "Comedy", "Drama", "Romance", "Horror", "Sci-Fi", "Fantasy", "Thriller",
     "Documentary", "Mystery", "Animation", "Adventure", "Crime", "Family", "Musical",
-    "Biography", "War", "No preference"
+    "Biography", "War"
 ];
 
-function Question1() {
-    const [selectedGenres, setSelectedGenres] = useState([]);
+function Question1({ previousAnswer, onSelect }) {
+    const [isSelected, setSelectedGenre] = useState(previousAnswer || '');
 
-    const toggleGenre = (genre) => {
-        if (genre === "No preference") {
-            setSelectedGenres(["No preference"]);
-            return;
-        }
-
-        let updatedGenres = selectedGenres.filter(g => g !== "No preference");
-
-        if (updatedGenres.includes(genre)) {
-            updatedGenres = updatedGenres.filter(g => g !== genre);
-        } else {
-            updatedGenres.push(genre);
-        }
-
-        setSelectedGenres(updatedGenres);
-    };
+    const handleSelect = (genre) => {
+            setSelectedGenre(genre);
+            onSelect(genre);
+        };
 
     return (
         <div>
             <h2 className="question">What kind of genre are you in the mood for?</h2>
             <div className="wrapper-answers-container">
-                {Genres.map((genre) => {
-                    const isSelected = selectedGenres.includes(genre);
-                    return (
-                        <button
-                            key={genre}
-                            onClick={() => toggleGenre(genre)}
-                            className={`button-tertiary ${isSelected ? 'selected' : ''}`}
+                {Genres.map((genre) => (
+                    <button
+                        key={genre}
+                        onClick={() => handleSelect(genre)}
+                        className={`button-tertiary ${isSelected === genre ? 'selected' : ''}`}
                         >
-                            {genre}
-                        </button>
-                    );
-                })}
+                        {genre}
+                    </button>
+                    ))}
             </div>
         </div>
     );

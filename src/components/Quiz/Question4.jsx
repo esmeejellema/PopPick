@@ -1,27 +1,26 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '../../styling/Titles.css';
 import '../../styling/Wrapper.css';
 
 
-
-function Question4({onSubmit}) {
-    // If you want only single selection, keep track locally
-    const [selectedAnswer, setSelectedAnswer] = useState('');
+function Question4({ previousAnswer, onSelect}) {
+    const [isSelected, setSelectedAnswer] = useState(previousAnswer || '');
 
     const handleSelect = (choice) => {
-        setSelectedAnswer(choice)
-        onSubmit(choice);
+        setSelectedAnswer(choice);
+        onSelect(choice);
+        return choice;
     };
 
     return (
         <div>
             <h2 className="question">Which streaming service is available to you?</h2>
             <div className="wrapper-answers">
-                <button onClick={() => handleSelect('Netflix')} className={`button-tertiary ${selectedAnswer === 'Netflix' ? 'selected' : ''}`}>
+                <button onClick={() => handleSelect('Netflix')} className={`button-tertiary ${isSelected === 'Netflix' ? 'selected' : ''}`}>
                 Netflix</button>
-                <button onClick={() => handleSelect('HBO Max')} className={`button-tertiary ${selectedAnswer === 'HBO Max' ? 'selected' : ''}`}>
+                <button onClick={() => handleSelect('HBO Max')} className={`button-tertiary ${isSelected === 'HBO Max' ? 'selected' : ''}`}>
                 HBO Max</button>
-                <button onClick={()=> handleSelect('Amazon Prime')} className={`button-tertiary ${selectedAnswer === 'Amazon Prime' ? 'selected' : ''}`}>
+                <button onClick={()=> handleSelect('Amazon Prime')} className={`button-tertiary ${isSelected === 'Amazon Prime' ? 'selected' : ''}`}>
                 Amazon Prime</button>
             </div>
         </div>

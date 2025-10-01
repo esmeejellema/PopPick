@@ -22,3 +22,16 @@
     color: #666;
     margin-top: 8px;
 }
+.recommendation {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.title-recommendation {
+    text-align: center;
+    font-size: 8rem;
+    font-family: 'bebas neue', cursive;
+    color:var(--warm-beige);
+}

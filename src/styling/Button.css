@@ -78,6 +78,11 @@
     transition: background-color 0.2s ease;
     font-size: 20px;
 }
+.back-to-profile {
+    position: absolute;
+    left: 0;
+    font-family: 'bebas neue', serif;
+}
 
 .button-tertiary.selected {
     background-color:var(--deep-black);
