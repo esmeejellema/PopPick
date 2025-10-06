@@ -6,7 +6,6 @@ import Register from './pages/Register.jsx';
 import Profile from './pages/Profile.jsx';
 import Quiz from './pages/Quiz.jsx';
 import Lists from './pages/Lists.jsx';
-import ManageList from './pages/ManageList.jsx';
 import './App.css';
 
 function App() {
@@ -20,7 +19,6 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/quiz" element={<Quiz />} />
               <Route path="/lists" element={<Lists />} />
-              <Route path="/manageList" element={<ManageList />} />
           </Routes>
       </Router>
   );

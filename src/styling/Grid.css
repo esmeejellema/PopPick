@@ -1,81 +1,56 @@
+/*LISTS*/
+/*ListMovies*/
+.grid-scroll-container {
+    max-height: 300px;
+    width: 450px;
+    overflow-y: scroll;
+    padding: 12px;
+    margin: 5rem;
+}
+.grid-scroll-container::-webkit-scrollbar {
+    width: 8px;
+}
 
-/*AddMovies*/
-.grid-list-movies {
+.grid-scroll-container::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 4px;
+}
+.grid-scroll-container::-webkit-scrollbar-thumb {
+    background:var(--deep-black);
+    border-radius: 4px;
+}
+/*movie cards*/
+.grid-movies {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 1rem;
-    padding: 0;
     list-style: none;
+    padding: 1rem;
 }
-.grid-list-movies li {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    font-family: 'bebas Neue', cursive;
-    text-align: center;
-    padding: 0.5rem;
-    margin: 0.5rem;
-    border: 1px solid var(--deep-black);
-    border-radius: 5rem;
-    background-color:var(--warm-beige);
+.grid-movie-card {
+    background-color: var(--warm-beige);
+    border-radius: 8px;
+    padding: 8px;
+    gap: 1rem;
+    box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    width: 100px;
+    height: 80px;
 }
-.grid-list-movies li.selected {
-    background-color:var(--deep-black);
+.grid-movie-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+.grid-movie-card.selected {
+    background-color: var(--deep-black);
     color: var(--warm-beige);
-    font-weight: bold;
 }
-input:hover {
-    cursor: pointer;
-}
-.grid-list-movies:hover li {
-    cursor: pointer;
+.grid-movie-card h4 {
+    white-space: nowrap;
+    overflow: hidden;
 }
 /*styling for checkboxes of movie items*/
 input[type="checkbox"] {
     opacity: 0;
-}
-
-
-.scroll-container {
-    max-height: 300px;
-    overflow-y: scroll;
-    padding: 0.5rem;
-    margin: 5rem;
-}
-.scroll-container::-webkit-scrollbar {
-    width: 8px;
-}
-
-.scroll-container::-webkit-scrollbar-track {
-    background: transparent;
-    border-radius: 4px;
-}
-.scroll-container::-webkit-scrollbar-thumb {
-    background: white;
-    border-radius: 4px;
-}
-
-.scroll-container::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-/*add movie*/
-.list-selection-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 2rem;
-    gap: 2rem;
-    text-align: center;
-}
-.list-selection {
-    position: relative;
-    list-style: none;
-    font-family: 'bebas neue', sans-serif;
-    font-size: 2rem;
-    color: var(--warm-beige);
-    text-align: center;
-}
-.list-selection:hover {
-    cursor: pointer;
 }

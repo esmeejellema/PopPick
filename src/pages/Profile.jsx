@@ -7,12 +7,12 @@ import React from "react";
 function Profile() {
     return (
         <div>
-            <Button className="button-tertiary nav-pages-right" text="Log out" to="/"/>
-            <div className="profile-wrapper">
-        <h1 className="profile-title-animation">Welcome to your profile</h1>
+            <Button className="button-primary nav-pages-right" text="Log out" to="/"/>
+            <div className="wrapper-profile">
+        <h2 className="anim-profile-title">Welcome to your profile</h2>
         <div className="button-primary-wrapper">
-            <Button className="button-primary-left" text="Popquiz" to="/quiz"/>
-            <Button className="button-primary-right" text="Lists" to="/lists"/>
+            <Button className="button-primary anim-button-left" text="Popquiz" to="/quiz"/>
+            <Button className="button-primary anim-button-right" text="Lists" to="/lists"/>
         </div>
         </div>
         </div>

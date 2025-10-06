@@ -1,7 +1,7 @@
 function Register() {
     return (
         <div>
-            <h1>Register page</h1>
+            <h2>Register page</h2>
         </div>
     );
 }

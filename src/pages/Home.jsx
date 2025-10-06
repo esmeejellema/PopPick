@@ -6,7 +6,7 @@ import '../styling/Wrapper.css';
 
 function Home() {
     return(
-        <div className="home-wrapper">
+        <div className="wrapper-home">
             <div className="button-primary-wrapper">
             <Button className="button-primary" text="Login" to="/login" />
             <Button className="button-primary" text="Register" to="/register" />

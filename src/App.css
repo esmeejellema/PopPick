@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
 * {
     margin: 0;
@@ -20,12 +21,15 @@ body {
     min-height: 100vh;
     text-align: center;
 }
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'bebas neue', serif;
+h1 {
+    font-family: 'Bebas Neue', serif;
     color: var(--warm-beige);
 }
-
-button {
-    font-family: 'playfair display', serif;
+h2 {
+    font-family: 'Bebas Neue', serif;
     color: var(--warm-beige);
+    font-size: 3rem;
+}
+h4 {
+    font-family: 'oswald', serif;
 }
