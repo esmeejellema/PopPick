@@ -38,7 +38,7 @@ const ListName = ({onCreateList}) => {
                         <input className="input-field"
                                id="listName"
                                type="text"
-                               placeholder="list name..."
+                               placeholder="Enter new list"
                                value={listName}
                                onChange={e => setListName(e.target.value)}
                         />

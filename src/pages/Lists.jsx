@@ -5,6 +5,8 @@ import ListName from "../components/Lists/ListName.jsx";
 import ListMovies from "../components/Lists/ListMovies.jsx";
 import ListEditor from "../components/Lists/ListEditor.jsx";
 import Button from '../components/Button.jsx';
+import {useNavigate} from "react-router-dom";
+import api from "../api/api.js";
 
 function Lists() {
     const [movies, setMovies] = useState([]);
@@ -13,7 +15,8 @@ function Lists() {
     // Fetch existing lists
     async function fetchLists() {
         try {
-            const response = await axios.get('http://localhost:8080/movielists');
+            // const response = await axios.get('http://localhost:8080/api/movielists');
+            const response = await api.get('/movielists');
             setExistingLists(response.data);
         } catch (error) {
             console.error('Error fetching lists:', error.message);
@@ -23,7 +26,8 @@ function Lists() {
     // Fetch movies
     async function fetchMovies() {
         try {
-            const response = await axios.get('http://localhost:8080/movies');
+            // const response = await axios.get('http://localhost:8080/api/movies');
+            const response = await api.get('/movies');
             setMovies(response.data);
         } catch (error) {
             console.error('Error fetching movies:', error.message);
@@ -38,7 +42,7 @@ function Lists() {
     // Create a new list
     async function createList(listName) {
         try {
-            const response = await axios.post('http://localhost:8080/movielists', { listName });
+            const response = await api.post('/movielists', { listName });
             alert(`List "${response.data.listName}" created successfully!`);
             fetchLists();
         } catch (error) {
@@ -46,6 +50,7 @@ function Lists() {
             console.error(error);
         }
     }
+    // const response = await axios.post('http://localhost:8080/api/movielists', { listName });
 
     // Add movies to a selected list
     async function addMovies(selectedListId, selectedMovieIds, clearSelectedMovies) {
@@ -55,10 +60,9 @@ function Lists() {
         }
 
         try {
-            const response = await axios.put(
-                `http://localhost:8080/movielists/${selectedListId}/movies`,
-                { movieIds: selectedMovieIds }
-            );
+            const response = await api.put(`/movielists/${selectedListId}/movies`, {
+                movieIds: selectedMovieIds
+            });
             alert(`List "${response.data.listName}" updated with new movies!`);
             clearSelectedMovies([]);
             fetchLists(); // Refresh lists after update
@@ -67,13 +71,14 @@ function Lists() {
             console.error(error);
         }
     }
+    // const response = await axios.put(`http://localhost:8080/api/movielists/${selectedListId}/movies`, { movieIds: selectedMovieIds });
 
     // Delete a list
     async function deleteList(listId) {
         if (!window.confirm('Are you sure you want to delete this list?')) return;
 
         try {
-            await axios.delete(`http://localhost:8080/movielists/${listId}`);
+            await api.delete(`/movielists/${listId}`);
             alert('List deleted!');
             fetchLists();
         } catch (error) {
@@ -81,12 +86,21 @@ function Lists() {
             console.error(error);
         }
     }
+    // await axios.delete(`http://localhost:8080/api/movielists/${listId}`);
+
+    const navigate = useNavigate();
+    const handleLogout = () => {
+        console.log("Logout clicked");
+        localStorage.removeItem('token');  // JWT-token verwijderen
+        alert("logged out successfully.");
+        navigate('/');  // Terug naar home
+    };
 
     return (
         <div>
             {/* Navigation buttons */}
             <Button className="button-primary nav-pages-left" text="Profile" to="/profile" />
-            <Button className="button-primary nav-pages-right" text="Log out" to="/" />
+            <Button className="button-primary nav-pages-right" text="Log out" onClick={handleLogout} />
 
             {/* Main container layout */}
             <div className="container-box-lay-out">

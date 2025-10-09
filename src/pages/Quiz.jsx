@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import api from "../api/api.js";
+
 
 import '../styling/Animations.css';
 import '../styling/Titles.css';
@@ -13,6 +14,7 @@ import Question3 from '../components/Quiz/Question3';
 import Question4 from '../components/Quiz/Question4';
 
 import Button from "../components/Button.jsx";
+import {useNavigate} from "react-router-dom";
 
 function Quiz() {
     const [step, setStep] = useState(1);
@@ -82,7 +84,7 @@ function Quiz() {
     useEffect(() => {
         async function fetchMovies() {
             try {
-                const response = await axios.get('http://localhost:8080/movies');
+                const response = await api.get('/movies');
                 console.log('fetched movies: ', response.data);
                 setMovies(response.data);
             } catch (error) {
@@ -92,15 +94,25 @@ function Quiz() {
 
         fetchMovies();
     }, []);
+    // const response = await axios.get('http://localhost:8080/api/movies');
+
     // 'setMovies' is the variable that catches the fetched movies, and 'movies' is what is used to use the movies in functions
     // error.message is generated automatically
     // fetchMovies(); defined inside so it can be async.
     // response.date holds fetched movies
     // const response etc is a way telling that response has to wait for get method.
     // []) this a dependency array which says it can only run once a mount. without it it would be running all the time.
+    const navigate = useNavigate();
+    const handleLogout = () => {
+        console.log("Logout clicked");
+        localStorage.removeItem('token');  // JWT-token verwijderen
+        alert("logged out successfully.");
+        navigate('/');  // Terug naar home
+    };
     return (
         <div className="container-quiz-page">
             <Button className="button-primary nav-pages-left" text="profile" to="/profile"/>
+            <Button className="button-primary nav-pages-right" text="Log out" onClick={handleLogout} />
             {/* Question rendering */}
             {step === 1 && (
                 <Question1

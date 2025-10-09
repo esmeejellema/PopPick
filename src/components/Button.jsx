@@ -1,13 +1,19 @@
 import { Link } from 'react-router-dom';
 import '../styling/Button.css';
 
-function Button({ text, to, className }) {
+function Button({ text, to, className, onClick }) {
+    if (to) {
+        return (
+            <Link to={to} className={className}>
+                {text}
+            </Link>
+        );
+    }
+
     return (
-        <div className="button">
-            <Link to={to}>
-            <button className={ className }>{text}</button>
-        </Link>
-        </div>
+        <button onClick={onClick} className={className}>
+            {text}
+        </button>
     );
 }
 
