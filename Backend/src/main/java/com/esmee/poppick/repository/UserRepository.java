@@ -1,0 +1,11 @@
+// UserRepository.java
+package com.esmee.poppick.repository;
+
+import com.esmee.poppick.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByUsername(String username);
+    Boolean existsByUsername(String username);
+}
