@@ -5,9 +5,15 @@
     font-family: 'Bebas Neue', serif;
     background: none;
     cursor: pointer;
-    font-size: 1.8rem;
-    letter-spacing: 0.4rem;
+    font-size: 1.2rem;
+    letter-spacing: 0.2rem;
     text-decoration: none;
+    transition: transform 0.2s ease, text-shadow 0.2s ease;
+}
+
+.button-primary:hover {
+    transform: scale(1.05);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 .button-primary-wrapper {
     display: flex;
@@ -19,12 +25,14 @@
     top: 1rem;
     left: 1rem;
     letter-spacing: 0;
+    z-index:10;
 }
 .nav-pages-right {
     position: absolute;
     top: 1rem;
     right: 1rem;
     letter-spacing: 0;
+    z-index:10;
 }
 
 /*button-secondary is for the previous and next buttons in Quiz and Create and select a list*/
@@ -55,11 +63,25 @@
     border-radius: 50px;
     border: none;
     cursor: pointer;
-    transition: background-color 0.2s ease;
     font-size: 20px;
+    transition: transform 0.2s ease, text-shadow 0.2s ease;
+}
+.button-tertiary:hover {
+    transform: scale(1.05);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 .button-tertiary.selected {
     background-color:var(--deep-black);
+}
+.button-4 {
+    border: none;
+    color: var(--warm-beige);
+    font-family: 'Bebas Neue', serif;
+    background: none;
+    cursor: pointer;
+    font-size: 3rem;
+    letter-spacing: 0.2rem;
+    text-decoration: none;
 }
 /*OVERIG?*/
 /*delete button for now on its own*/
@@ -69,4 +91,11 @@
 }
 .delete-button:hover {
     cursor: pointer;
+}
+.button-play {
+    color: var(--warm-beige);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.button-play:hover {
+    transform: scale(1.1) rotate(5deg);
 }

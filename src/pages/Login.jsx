@@ -1,93 +1,83 @@
-import React, { useState } from 'react';
-import '../styling/Input.css'
-import axios from 'axios';
+import React, {useState} from 'react';
+import {jwtDecode} from 'jwt-decode';
 
-import { jwtDecode } from 'jwt-decode';
-import { useNavigate } from 'react-router-dom';
+console.log(jwtDecode(localStorage.getItem("token")));
+import api from "../api/api.js";
+import {useNavigate} from 'react-router-dom';
+import {useUser} from "../context/UserContext.jsx";
+
+// Components
 import Button from "../components/Button.jsx";
 
+// Styling
+import '../styling/Input.css'
 
 function Login() {
-    // Toggle between login and register mode
+    // State
     const [isRegister, setIsRegister] = useState(false);
-
-    // Form inputs state
     const [form, setForm] = useState({
         username: '',
         email: '',
         password: '',
     });
 
+    // Hooks
+    const {setUser} = useUser();
     const navigate = useNavigate();
 
-    // Update form state on input change
+    // Handlers
     const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+        setForm({...form, [e.target.name]: e.target.value});
     };
 
-    // Handle login form submit
-    const handleLogin = async (e) => {
+    // API connection
+    async function handleLogin(e) {
         e.preventDefault();
-
+        console.log("LOGIN FUNCTION TRIGGERED"); // voeg dit toe
         try {
-            const response = await axios.post(`http://localhost:8080/api/auth/login`, {
+            const response = await api.post("/auth/login", {
                 username: form.username,
                 password: form.password,
             });
-            console.log("Login response:", response.data);
-            alert("logged in successfully");
 
             const token = response.data.token;
-            localStorage.setItem('token', token);
+            localStorage.setItem("token", token);
 
             const decoded = jwtDecode(token);
-            localStorage.setItem("username", decoded.sub);
+            const userObj = {
+                id: decoded.id ?? decoded.userId ?? null,
+                username: decoded.sub,
+                roles: decoded.roles || [],
+                token,
+            };
+            setUser(userObj);
 
-            console.log(decoded);
-            const roles = decoded.roles || [];
-
-            if (roles.includes('ADMIN')) {
-                navigate('/admin');
-            } else if (roles.includes('QUIZTAKER')) {
-                navigate('/profile');
-            } else {
-                navigate('/profile');
-            }
-        } catch (error) {
-            console.error('Login failed:', error.response?.data || error.message);
+            navigate("/profile");
+        } catch (err) {
+            console.error("Login failed:", err.response?.data || err.message);
         }
-    };
+    }
 
-    // Handle register form submit
-    const handleRegister = async (e) => {
+    async function handleRegister(e) {
         e.preventDefault();
-
         try {
-            // Role is fixed as QUIZTAKER for signup, sent from frontend or assigned backend-side
-            const response = await axios.post(`http://localhost:8080/api/auth/register`, {
+            await api.post("/auth/register", {
                 username: form.username,
                 email: form.email,
                 password: form.password,
-                role: 'QUIZTAKER',
+                role: "QUIZTAKER",
             });
-            console.log("Registration successful:", response.data);
-            alert("Registration successful! You can now log in.");
-            setForm({
-                username: '',
-                email: '',
-                password: '',
-            });
-            setIsRegister(false); // Show login form
-
-
-        } catch (error) {
-            console.error('Registration failed:', error.response?.data || error.message);
+            alert("Registration successful. Please log in.");
+            setForm({username: "", email: "", password: ""});
+            setIsRegister(false);
+        } catch (err) {
+            console.error("Registration failed:", err.response?.data || err.message);
         }
-    };
+    }
 
     return (
         <div className="auth-container">
-            <Button className="button-primary nav-pages-right" text="Back to home" to="/" />
+            <Button className="button-primary nav-pages-right" text="Back to home" to="/"/>
             {isRegister ? (
                 <form className="login-form" onSubmit={handleRegister}>
                     <h2 className="form-title">Register</h2>

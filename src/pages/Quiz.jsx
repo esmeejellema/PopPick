@@ -1,50 +1,114 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../context/UserContext.jsx";
 import api from "../api/api.js";
 
-
-import '../styling/Animations.css';
-import '../styling/Titles.css';
-import '../styling/Container.css';
-import '../styling/Wrapper.css';
-
-
+// Components
+import Button from "../components/Button.jsx";
 import Question1 from '../components/Quiz/Question1';
 import Question2 from '../components/Quiz/Question2';
 import Question3 from '../components/Quiz/Question3';
 import Question4 from '../components/Quiz/Question4';
 
-import Button from "../components/Button.jsx";
-import {useNavigate} from "react-router-dom";
+// Styling
+import '../styling/Animations.css';
+import '../styling/Titles.css';
+import '../styling/Container.css';
+import '../styling/Wrapper.css';
+import '../styling/progressbar.css';
+import '../styling/Menu.css';
 
 function Quiz() {
+    // State
     const [step, setStep] = useState(1);
-    const [recommendation, setRecommendation] = useState(null);
+    const [recommendation, setRecommendation] = useState();
     const [movies, setMovies] = useState([]);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [userRecommendations, setUserRecommendations] = useState([]);
+    const [showSaved, setShowSaved] = useState(false);
     const [answers, setAnswers] = useState({
         genre: '',
         length: '',
         releaseYear: '',
         streamingService: ''
     });
-    //above is the answers that will get sent back in JSON format.
+    const totalQuestions = 4;
 
-    // functions for previous and next button step.
+    // Hooks
+    const navigate = useNavigate();
+    const { userId, setUser } = useUser();
+
+    // Handlers
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        setUser(null);
+        navigate("/");
+    };
+
     const goToNextStep = () => {
-        if (step < 5) {
-            setStep((prev) => prev + 1);
-        }
-    };
-    const goToPreviousStep = () => {
-        if (step > 1) {
-            setStep((prev) => prev - 1);
-        }
-    };
-    //collect answers from each change. Don't submit each step, still possible to change.
-    const handleAnswerChange = (questionId, answerPayLoad) => {
-        setAnswers(prev => ({...prev, [questionId]: answerPayLoad}));
+        if (step < 5) setStep(prev => prev + 1);
     };
 
-    // filter movies using all collected answers and pick 1 to recommend.
+    const goToPreviousStep = () => {
+        if (step > 1) setStep(prev => prev - 1);
+    };
+
+    const handleAnswerChange = (questionId, answerPayLoad) => {
+        setAnswers(prev => ({ ...prev, [questionId]: answerPayLoad }));
+    };
+
+    // API connection
+    useEffect(() => {
+        async function fetchMovies() {
+            try {
+                const response = await api.get('/movies');
+                console.log('Fetched movies:', response.data);
+                setMovies(response.data);
+            } catch (error) {
+                console.error('Error fetching movies:', error.message);
+            }
+        }
+
+        fetchMovies();
+    }, []);
+
+    async function saveRecommendation(userId, recommendation) {
+        console.log("DEBUG SAVE:", userId, recommendation);
+        if (!userId || !recommendation?.id) {
+            console.warn("Missing userId or recommendation.id");
+            return;
+        }
+
+        try {
+            const response = await api.post(`/recommendations`, null, {
+                params: { userId, movieId: recommendation.id },
+            });
+            console.log("Recommendation saved:", response.data);
+        } catch (error) {
+            console.error("Error saving recommendation:", error.response?.data || error.message);
+        }
+    }
+
+    async function getUserRecommendations(userId) {
+        if (!userId) return;
+
+        // Toggle visibility
+        if (showSaved) {
+            setShowSaved(false);
+            return;
+        }
+
+        try {
+            const response = await api.get(`/recommendations/${userId}`);
+            setUserRecommendations(response.data);
+            setShowSaved(true);
+            console.log("Recommendations:", response.data);
+        } catch (error) {
+            console.error("Error fetching recommendations:", error.response?.data || error.message);
+        }
+    }
+
+    // Handler for business logic
     const handleAnswerSubmit = () => {
         let filtered = movies.filter(movie => movie.genre === answers.genre);
 
@@ -60,110 +124,146 @@ function Quiz() {
             filtered = filtered.filter(movie => movie.releaseYear < 2015);
         }
 
-        if (answers.streamingService === 'Netflix') {
-            filtered = filtered.filter(movie => movie.streamingService === answers.streamingService);
-        } else if (answers.streamingService === 'HBO Max') {
-            filtered = filtered.filter(movie => movie.streamingService === answers.streamingService);
-        } else if (answers.streamingService === 'Amazon Prime') {
+        if (['Netflix', 'HBO Max', 'Amazon Prime'].includes(answers.streamingService)) {
             filtered = filtered.filter(movie => movie.streamingService === answers.streamingService);
         }
+        if (filtered.length === 0) {
+            setRecommendation(null);
+        } else {
+            const selectedMovie = filtered.length > 0
+                ? filtered[Math.floor(Math.random() * filtered.length)]
+                : null;
 
-        let selectedMovie = null;
+            console.log("Answers:", answers);
+            console.log("Filtered movies:", filtered);
+            console.log("Selected movie:", selectedMovie);
 
-        if (filtered.length > 0) {
-            // Pick one at random
-            const index = Math.floor(Math.random() * filtered.length);
-            selectedMovie = filtered[index];
+            setRecommendation(selectedMovie);
+            setStep(5);
         }
-        console.log("answers before filtering: ", answers);
-        console.log("filtered movies: ", filtered);
-        console.log("selected movie: ", selectedMovie);
-        setRecommendation(selectedMovie);
-        setStep(5);
-    }
-    useEffect(() => {
-        async function fetchMovies() {
-            try {
-                const response = await api.get('/movies');
-                console.log('fetched movies: ', response.data);
-                setMovies(response.data);
-            } catch (error) {
-                console.error('Error fetching movies: ', error.message);
-            }
-        }
-
-        fetchMovies();
-    }, []);
-    // const response = await axios.get('http://localhost:8080/api/movies');
-
-    // 'setMovies' is the variable that catches the fetched movies, and 'movies' is what is used to use the movies in functions
-    // error.message is generated automatically
-    // fetchMovies(); defined inside so it can be async.
-    // response.date holds fetched movies
-    // const response etc is a way telling that response has to wait for get method.
-    // []) this a dependency array which says it can only run once a mount. without it it would be running all the time.
-    const navigate = useNavigate();
-    const handleLogout = () => {
-        console.log("Logout clicked");
-        localStorage.removeItem('token');  // JWT-token verwijderen
-        alert("logged out successfully.");
-        navigate('/');  // Terug naar home
     };
+
+    // UI helper
+    const renderProgressBar = () => {
+        const percent = (step / totalQuestions) * 100;
+        return (
+            <div className="progress-bar">
+                <div className="progress-bar-fill" style={{ width: `${percent}%` }}></div>
+            </div>
+        );
+    };
+
+    useEffect(() => {
+        const handler = (e) => {
+            if (!e.target.closest('.menu-container')) setMenuOpen(false);
+        };
+        document.addEventListener('click', handler);
+        return () => document.removeEventListener('click', handler);
+    }, []);
+
+
     return (
         <div className="container-quiz-page">
-            <Button className="button-primary nav-pages-left" text="profile" to="/profile"/>
-            <Button className="button-primary nav-pages-right" text="Log out" onClick={handleLogout} />
-            {/* Question rendering */}
+            {/* Menu */}
+            <div className="menu-container">
+                <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+                    ☰
+                </button>
+                {menuOpen && (
+                    <div className="menu-dropdown">
+                        <Button className="button-primary" text="Profile" to="/profile" />
+                        <Button className="button-primary" text="Log out" onClick={handleLogout} />
+                    </div>
+                )}
+            </div>
+
+            {/* Questions */}
             {step === 1 && (
                 <Question1
                     onSelect={(answer) => handleAnswerChange('genre', answer)}
-                    previousAnswer={answers['genre']}
+                    previousAnswer={answers.genre}
                 />
             )}
-
             {step === 2 && (
                 <Question2
                     onSelect={(answer) => handleAnswerChange('length', answer)}
-                    previousAnswer={answers['length']}
+                    previousAnswer={answers.length}
                 />
             )}
-
             {step === 3 && (
                 <Question3
                     onSelect={(answer) => handleAnswerChange('releaseYear', answer)}
-                    previousAnswer={answers['releaseYear']}
+                    previousAnswer={answers.releaseYear}
                 />
             )}
-
             {step === 4 && (
                 <Question4
                     onSelect={(answer) => handleAnswerChange('streamingService', answer)}
-                    previousAnswer={answers['streamingService']}
+                    previousAnswer={answers.streamingService}
                 />
             )}
 
+            {/* Recommendation */}
             {step === 5 && recommendation && (
                 <div className="recommendation">
                     <h2>We recommend</h2>
                     <p className="title-recommendation">{recommendation.title}</p>
+                    <button
+                        className="button-primary"
+                        onClick={() => saveRecommendation(userId, recommendation)}
+                    >
+                        Save recommendation
+                    </button>
+                    <button
+                        className="button-primary"
+                        onClick={() => getUserRecommendations(userId)}
+                    >
+                        {showSaved ? "Hide saved recommendations" : "Show saved recommendations"}
+                    </button>
+
+                    {showSaved && (
+                        <div className="saved-recommendations">
+                            {userRecommendations.length === 0 ? (
+                                <p>No recommendations saved yet.</p>
+                            ) : (
+                                <ul>
+                                    {userRecommendations.map((r) => (
+                                        <li key={r.id}>{r.movieTitle}</li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                    )}
+                    <button
+                        className="button-secondary"
+                        onClick={() => window.location.reload()}
+                    >
+                        Try Again
+                    </button>
                 </div>
             )}
 
-
-            {/* Navigation Buttons */}
+            {/* Navigation */}
             <div className="wrapper-button-secondary">
                 {step > 1 && step < 5 && (
                     <button className="button-secondary" onClick={goToPreviousStep}>
                         Previous
-                    </button>)}
+                    </button>
+                )}
+
+                {step < 5 && renderProgressBar()}
+
                 {step < 4 && (
                     <button className="button-secondary" onClick={goToNextStep}>
                         Next
-                    </button>)}
+                    </button>
+                )}
                 {step === 4 && (
                     <button className="button-secondary" onClick={handleAnswerSubmit}>
                         Submit
-                    </button>)}
+                    </button>
+
+                )}
             </div>
         </div>
     );
